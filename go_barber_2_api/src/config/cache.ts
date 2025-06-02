@@ -1,9 +1,9 @@
 interface IRedisConfig {
-  driver: 'redis';
-  redisURL: string;
+  driver: 'redis' | 'fake';
+  redisURL?: string;
 }
 
 export default {
-  driver: 'redis',
+  driver: process.env.NODE_ENV === 'production' ? 'redis' : 'fake',
   redisURL: process.env.REDIS_URL,
 } as IRedisConfig;

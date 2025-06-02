@@ -15,12 +15,12 @@ appointmentsRouter.post(
   '/',
   celebrate({
     [Segments.BODY]: {
-      provider_id: Joi.string().uuid().required(),
+      provider_id: Joi.string().length(24).hex().required(),
       date: Joi.date().required(),
     },
   }),
   appointmentsController.create,
 );
-appointmentsRouter.get('/me', providerAppointmentsController.index);
+appointmentsRouter.get('/me', appointmentsController.index);
 
 export default appointmentsRouter;

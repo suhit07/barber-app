@@ -6,6 +6,7 @@ import morgan from 'morgan';
 import 'express-async-errors';
 import 'reflect-metadata';
 import 'dotenv/config';
+import { getMongoRepository, MongoRepository } from 'typeorm';
 
 import routes from '@shared/infra/http/routes';
 import uploadConfig from '@config/upload';
@@ -42,7 +43,7 @@ app.use(
   },
 );
 
-const PORT = 3333;
+const PORT = 3000;
 
 app.listen(PORT, () => {
   console.log(`server running on port ${PORT}`);

@@ -1,30 +1,31 @@
 import {
   Entity,
+  ObjectIdColumn,
   Column,
-  PrimaryGeneratedColumn,
   CreateDateColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Exclude, Expose } from 'class-transformer';
+import { ObjectId } from 'mongodb';
 
 import uploadConfig from '@config/upload';
 
 @Entity('users')
 class User {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @ObjectIdColumn()
+  id: ObjectId;
 
-  @Column('varchar')
+  @Column({ type: 'string' })
   name: string;
 
-  @Column('varchar')
+  @Column({ type: 'string' })
   email: string;
 
-  @Column('varchar')
+  @Column({ type: 'string' })
   @Exclude()
   password: string;
 
-  @Column('varchar')
+  @Column({ type: 'string', nullable: true })
   avatar: string | null;
 
   @CreateDateColumn()

@@ -16,11 +16,11 @@ import Button from '../../components/Button';
 import { Container, Content, Background } from './styles';
 
 const signUpSchema = object().shape({
-  name: string().required('Nome obrigatório'),
+  name: string().required('Name is required'),
   email: string()
-    .required('E-mail obrigatório')
-    .email('Digite um e-mail válido'),
-  password: string().min(6, 'No mínimo 6 dígitos'),
+    .required('Email is required')
+    .email('Please enter a valid email'),
+  password: string().min(6, 'Minimum 6 characters'),
 });
 
 interface SignupDataForm {
@@ -60,17 +60,17 @@ function SignUp() {
 
         formRef.current?.reset();
         addToast({
-          title: `Cadastrado com sucesso!`,
+          title: `Successfully registered!`,
           description:
-            'Parabéns, sua conta foi criada, utilize seus dados para fazer login',
+            'Congratulations, your account has been created. Please use your credentials to login',
           type: 'success',
         });
 
         navigate('/');
       } catch (err) {
         addToast({
-          title: `Erro ao se cadastrar`,
-          description: 'Não foi possível criar o usuário, verifique seus dados',
+          title: `Registration error`,
+          description: 'Unable to create user, please check your information',
           type: 'error',
         });
       }
@@ -85,21 +85,21 @@ function SignUp() {
       <Content>
         <img src={logo} alt="go barber logo" />
         <Form onSubmit={handleSignUpSubmit} ref={formRef}>
-          <h1>Faça seu cadastro</h1>
-          <Input placeholder="Nome" name="name" icon={FiUser} />
-          <Input placeholder="E-mail" name="email" icon={FiMail} />
+          <h1>Create your account</h1>
+          <Input placeholder="Name" name="name" icon={FiUser} />
+          <Input placeholder="Email" name="email" icon={FiMail} />
           <Input
-            placeholder="Senha"
+            placeholder="Password"
             type="password"
             name="password"
             icon={FiLock}
           />
-          <Button type="submit">Cadastrar</Button>
+          <Button type="submit">Register</Button>
         </Form>
 
         <Link to="/">
           <FiArrowLeft />
-          Voltar para logon
+          Back to login
         </Link>
       </Content>
     </Container>

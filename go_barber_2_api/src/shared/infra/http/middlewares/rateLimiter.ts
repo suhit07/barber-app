@@ -1,20 +1,29 @@
 import { Request, Response, NextFunction } from 'express';
-import { RateLimiterRedis } from 'rate-limiter-flexible';
+import { RateLimiterRedis, RateLimiterMemory } from 'rate-limiter-flexible';
 import redis from 'redis';
 
 import AppError from '@shared/errors/AppError';
 import cacheConfig from '@config/cache';
 
-const redisClient = redis.createClient({
-  url: cacheConfig.redisURL,
-});
+let limiter: RateLimiterRedis | RateLimiterMemory;
 
-const limiter = new RateLimiterRedis({
-  storeClient: redisClient,
-  keyPrefix: 'ratelimit',
-  points: 5,
-  duration: 1,
-});
+if (cacheConfig.driver === 'fake') {
+  limiter = new RateLimiterMemory({
+    points: 5,
+    duration: 1,
+  });
+} else {
+  const redisClient = redis.createClient({
+    url: cacheConfig.redisURL,
+  });
+
+  limiter = new RateLimiterRedis({
+    storeClient: redisClient,
+    keyPrefix: 'ratelimit',
+    points: 5,
+    duration: 1,
+  });
+}
 
 export default async function rateLimiter(
   request: Request,

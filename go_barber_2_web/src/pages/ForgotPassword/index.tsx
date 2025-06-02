@@ -55,16 +55,16 @@ const ForgotPassword: React.FC = () => {
         await api.post('/password/forgot', { email: data.email });
 
         addToast({
-          title: 'Email de recuperação enviado',
+          title: 'Recovery email sent',
           description:
-            'Enviamos um e-mail para confirmar a recuperação de senha, cheque a sua caixa de entrada',
+            'We have sent a recovery email to your inbox, please check it',
           type: 'success',
         });
       } catch (err) {
         addToast({
-          title: 'Erro na recuperação de senha',
+          title: 'Password recovery error',
           description:
-            'Ocorreu um erro ao tentar realizar a recuperação de senha',
+            'An error occurred while trying to recover your password',
           type: 'error',
         });
       }
@@ -78,17 +78,17 @@ const ForgotPassword: React.FC = () => {
       <Content>
         <img src={logo} alt="go barber logo" />
         <Form onSubmit={handleLoginSubmit} ref={formRef}>
-          <h1>Recuperar senha</h1>
-          <Input placeholder="E-mail" name="email" icon={FiMail} />
+          <h1>Recover password</h1>
+          <Input placeholder="Email" name="email" icon={FiMail} />
 
           <Button type="submit" loading={loading}>
-            Recuperar
+            Recover
           </Button>
         </Form>
 
         <Link to="/">
           <FiLogIn />
-          Voltar ao login
+          Back to login
         </Link>
       </Content>
       <Background />

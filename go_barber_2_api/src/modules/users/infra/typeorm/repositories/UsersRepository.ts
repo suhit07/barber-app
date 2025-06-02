@@ -1,4 +1,4 @@
-import { getRepository, Repository, Not } from 'typeorm';
+import { getMongoRepository, MongoRepository } from 'typeorm';
 
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
@@ -6,10 +6,10 @@ import IFindAllProvidersDTO from '@modules/users/dtos/IFindAllProvidersDTO';
 import User from '@modules/users/infra/typeorm/entities/User';
 
 class UsersRepository implements IUserRepository {
-  private ormRepository: Repository<User>;
+  private ormRepository: MongoRepository<User>;
 
   constructor() {
-    this.ormRepository = getRepository(User);
+    this.ormRepository = getMongoRepository(User, 'mongo')
   }
 
   public async create(createData: ICreateUserDTO): Promise<User> {
@@ -33,16 +33,15 @@ class UsersRepository implements IUserRepository {
   }
 
   public async findByEmail(email: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne({ where: { email } });
+    const user = await this.ormRepository.findOne({ email });
 
     return user;
   }
 
   public async findAllProviders(data: IFindAllProvidersDTO): Promise<User[]> {
+    const filter = data.except_user_id ? { _id: { $ne: data.except_user_id } } : {};
     const users = await this.ormRepository.find({
-      where: {
-        id: Not(data.except_user_id),
-      },
+      where: filter,
       select: ['id', 'email', 'name', 'created_at', 'updated_at', 'avatar'],
     });
 

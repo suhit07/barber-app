@@ -13,66 +13,67 @@ describe('ListProviderMonthAvailability', () => {
   });
 
   it("should be able to list provider's month availability", async () => {
-    const year = new Date().getFullYear() + 1;
+    const year = 2024;
+    const month = 7; // July
 
     const appointmentsToCreate = [
       {
-        date: new Date(year, 6, 5, 10, 0, 0),
+        date: new Date(year, month - 1, 5, 10, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'anything',
       },
       {
-        date: new Date(year, 6, 10, 8, 0, 0),
+        date: new Date(year, month - 1, 10, 8, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'anything',
       },
       {
-        date: new Date(year, 6, 10, 9, 0, 0),
+        date: new Date(year, month - 1, 10, 9, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'anything',
       },
       {
-        date: new Date(year, 6, 10, 10, 0, 0),
+        date: new Date(year, month - 1, 10, 10, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'any_user_id',
       },
       {
-        date: new Date(year, 6, 10, 11, 0, 0),
+        date: new Date(year, month - 1, 10, 11, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'any_user_id',
       },
       {
-        date: new Date(year, 6, 10, 12, 0, 0),
+        date: new Date(year, month - 1, 10, 12, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'any_user_id',
       },
       {
-        date: new Date(year, 6, 10, 13, 0, 0),
+        date: new Date(year, month - 1, 10, 13, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'any_user_id',
       },
       {
-        date: new Date(year, 6, 10, 14, 0, 0),
+        date: new Date(year, month - 1, 10, 14, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'any_user_id',
       },
       {
-        date: new Date(year, 6, 10, 15, 0, 0),
+        date: new Date(year, month - 1, 10, 15, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'any_user_id',
       },
       {
-        date: new Date(year, 6, 10, 16, 0, 0),
+        date: new Date(year, month - 1, 10, 16, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'any_user_id',
       },
       {
-        date: new Date(year, 6, 10, 17, 0, 0),
+        date: new Date(year, month - 1, 10, 17, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'any_user_id',
       },
       {
-        date: new Date(year, 6, 12, 10, 0, 0),
+        date: new Date(year, month - 1, 12, 10, 0, 0),
         provider_id: 'any_provider_id',
         user_id: 'anything',
       },
@@ -86,7 +87,7 @@ describe('ListProviderMonthAvailability', () => {
 
     const monthAvailabilty = await listProviderMonthAvailabilityService.execute(
       {
-        month: 7,
+        month,
         year,
         provider_id: 'any_provider_id',
       },

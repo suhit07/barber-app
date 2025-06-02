@@ -1,6 +1,6 @@
 import { getDaysInMonth, getDate, isFuture, getDay } from 'date-fns';
 
-import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+import { IAppointmentsRepository } from '@modules/appointments/repositories/IAppointmentsRepository';
 
 interface IRequest {
   provider_id: string;
@@ -31,7 +31,7 @@ class ListProviderMonthAvailabilityService {
     );
 
     const availability = daysInMonthArray.map(day => {
-      const compareDate = new Date(year, month - 1, day, 18, 0, 0);
+      const compareDate = new Date(year, month - 1, day, 23, 59, 59);
 
       const appointmentsInDay = appointments.filter(
         appointment => getDate(appointment.date) === day,
