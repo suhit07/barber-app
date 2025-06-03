@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-mongoose.connect('mongodb+srv://bhumi:bhumi123123@bhumi.yfdsvwk.mongodb.net/')
+mongoose.connect(process.env.MONGO_URL || 'mongodb+srv://bhumi:bhumi123123@bhumi.yfdsvwk.mongodb.net/')
   .then(() => {
     console.log('Connected to MongoDB');
   })
