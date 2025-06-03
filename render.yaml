@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: go-barber-api
+    env: node
+    buildCommand: cd go_barber_2_api && npm install && npm run build
+    startCommand: cd go_barber_2_api && npm run dev
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3333
+      - key: APP_SECRET
+        sync: false
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        sync: false
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: DB_NAME
+        sync: false
+      - key: REDIS_HOST
+        sync: false
+      - key: REDIS_PORT
+        sync: false
+      - key: REDIS_PASS
+        sync: false
+      - key: MAIL_DRIVER
+        value: ethereal
+      - key: STORAGE_DRIVER
+        value: disk
