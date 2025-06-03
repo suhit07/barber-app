@@ -15,8 +15,14 @@ import AppError from '@shared/errors/AppError';
 
 import '@shared/infra/typeorm';
 import path from 'path';
+import { connectMongoDB } from '@config/mongodb';
 
 const app = express();
+
+// Initialize MongoDB before starting server
+connectMongoDB().then(() => {
+  // Removed direct app.listen call that was causing EADDRINUSE before retry logic
+});
 
 app.use(morgan('tiny'));
 app.use(express.json());
@@ -43,11 +49,32 @@ app.use(
   },
 );
 
-const PORT = 3000;
+const initializeServer = (port: number = 3000) => {
+  const server = app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+  })
+  .on('error', (error: NodeJS.ErrnoException) => {
+    if (error.code === 'EADDRINUSE') {
+      console.log(`Port ${port} occupied, retrying on ${port + 1}`);
+      server.close(() => initializeServer(port + 1));
+    }
+  });
 
-app.listen(PORT, () => {
-  console.log(`server running on port ${PORT}`);
-});
+  // Graceful shutdown
+  process.on('SIGTERM', () => {
+    server.close(() => process.exit(0));
+  });
+
+  process.on('SIGINT', () => {
+    server.close(() => process.exit(0));
+  });
+
+  return server;
+};
+
+// Start server with default port 3000 after MongoDB connection is established
+// The initializeServer function contains the port retry logic.
+initializeServer(Number(process.env.PORT) || 3000);
 
 export const forgotPasswordTemplate = path.resolve(
   __dirname,

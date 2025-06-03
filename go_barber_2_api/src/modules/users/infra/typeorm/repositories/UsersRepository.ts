@@ -1,49 +1,39 @@
-import { getMongoRepository, MongoRepository } from 'typeorm';
-
 import IUserRepository from '@modules/users/repositories/IUserRepository';
 import ICreateUserDTO from '@modules/users/dtos/ICreateUserDTO';
 import IFindAllProvidersDTO from '@modules/users/dtos/IFindAllProvidersDTO';
-import User from '@modules/users/infra/typeorm/entities/User';
+import { User, UserDocument } from '@modules/users/schemas/UserSchema';
 
 class UsersRepository implements IUserRepository {
-  private ormRepository: MongoRepository<User>;
+  private ormRepository = User;
 
-  constructor() {
-    this.ormRepository = getMongoRepository(User, 'mongo')
-  }
-
-  public async create(createData: ICreateUserDTO): Promise<User> {
+  public async create(createData: ICreateUserDTO): Promise<UserDocument> {
     const { email, name, password } = createData;
 
-    const user = this.ormRepository.create({ email, name, password });
-
-    await this.ormRepository.save(user);
+    const user = await this.ormRepository.create({ email, name, password });
 
     return user;
   }
 
-  public async save(user: User): Promise<User> {
-    return this.ormRepository.save(user);
+  public async save(user: UserDocument): Promise<UserDocument> {
+    await user.save();
+    return user;
   }
 
-  public async findById(id: string): Promise<User | undefined> {
-    const user = await this.ormRepository.findOne(id);
+  public async findById(id: string): Promise<UserDocument | null> {
+    const user = await this.ormRepository.findById(id);
 
     return user;
   }
 
-  public async findByEmail(email: string): Promise<User | undefined> {
+  public async findByEmail(email: string): Promise<UserDocument | null> {
     const user = await this.ormRepository.findOne({ email });
 
     return user;
   }
 
-  public async findAllProviders(data: IFindAllProvidersDTO): Promise<User[]> {
+  public async findAllProviders(data: IFindAllProvidersDTO): Promise<UserDocument[]> {
     const filter = data.except_user_id ? { _id: { $ne: data.except_user_id } } : {};
-    const users = await this.ormRepository.find({
-      where: filter,
-      select: ['id', 'email', 'name', 'created_at', 'updated_at', 'avatar'],
-    });
+    const users = await this.ormRepository.find(filter).select('id email name created_at updated_at avatar');
 
     return users;
   }

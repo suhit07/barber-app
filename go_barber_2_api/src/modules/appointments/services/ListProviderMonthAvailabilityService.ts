@@ -1,6 +1,7 @@
 import { getDaysInMonth, getDate, isFuture, getDay } from 'date-fns';
 
-import { IAppointmentsRepository } from '@modules/appointments/repositories/IAppointmentsRepository';
+import IAppointmentsRepository from '@modules/appointments/repositories/IAppointmentsRepository';
+import  ICacheProvider  from '@shared/container/providers/CacheProvider/models/ICacheProvider';
 
 interface IRequest {
   provider_id: string;
@@ -11,6 +12,7 @@ interface IRequest {
 type IResponse = Array<{
   day: number;
   available: boolean;
+  
 }>;
 
 class ListProviderMonthAvailabilityService {
