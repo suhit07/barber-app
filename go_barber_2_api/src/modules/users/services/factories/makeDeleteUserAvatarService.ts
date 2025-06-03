@@ -6,10 +6,11 @@ import IStorageProvider from '@shared/container/providers/StorageProvider/models
 import uploadConfig from '@config/upload';
 import DiskStorageProvider from '@shared/container/providers/StorageProvider/implementations/DiskStorageProvider';
 import DeleteUserAvatarService from '../DeleteUserAvatarService';
+import FakeCacheProvider from '@shared/container/providers/CacheProvider/implementations/FakeCacheProvider';
 
 export default function makeDeleteUserAvatarService(): DeleteUserAvatarService {
   const usersRepository = new UsersRepository();
-  const cacheProvider = new RedisCacheProvider();
+  const cacheProvider = new FakeCacheProvider();
   let storageProvider: IStorageProvider;
   switch (uploadConfig.driver) {
     case 'disk':

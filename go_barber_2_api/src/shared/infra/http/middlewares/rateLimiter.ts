@@ -5,25 +5,12 @@ import redis from 'redis';
 import AppError from '@shared/errors/AppError';
 import cacheConfig from '@config/cache';
 
-let limiter: RateLimiterRedis | RateLimiterMemory;
+let limiter: RateLimiterMemory;
 
-if (cacheConfig.driver === 'fake') {
-  limiter = new RateLimiterMemory({
-    points: 5,
-    duration: 1,
-  });
-} else {
-  const redisClient = redis.createClient({
-    url: cacheConfig.redisURL,
-  });
-
-  limiter = new RateLimiterRedis({
-    storeClient: redisClient,
-    keyPrefix: 'ratelimit',
-    points: 5,
-    duration: 1,
-  });
-}
+limiter = new RateLimiterMemory({
+  points: 5,
+  duration: 1,
+});
 
 export default async function rateLimiter(
   request: Request,
