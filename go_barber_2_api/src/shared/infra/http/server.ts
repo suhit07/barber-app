@@ -49,32 +49,20 @@ app.use(
   },
 );
 
-const initializeServer = (port: number = 3000) => {
-  const server = app.listen(port, () => {
-    console.log(`Server running on port ${port}`);
-  })
-  .on('error', (error: NodeJS.ErrnoException) => {
-    if (error.code === 'EADDRINUSE') {
-      console.log(`Port ${port} occupied, retrying on ${port + 1}`);
-      server.close(() => initializeServer(port + 1));
-    }
-  });
+const PORT = Number(process.env.PORT) || 3000;
 
-  // Graceful shutdown
-  process.on('SIGTERM', () => {
-    server.close(() => process.exit(0));
-  });
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
 
-  process.on('SIGINT', () => {
-    server.close(() => process.exit(0));
-  });
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  process.exit(0);
+});
 
-  return server;
-};
-
-// Start server with default port 3000 after MongoDB connection is established
-// The initializeServer function contains the port retry logic.
-initializeServer(Number(process.env.PORT) || 3000);
+process.on('SIGINT', () => {
+  process.exit(0);
+});
 
 export const forgotPasswordTemplate = path.resolve(
   __dirname,
