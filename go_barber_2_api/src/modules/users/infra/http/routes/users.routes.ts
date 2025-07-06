@@ -19,7 +19,7 @@ usersRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string().required(),
-      email: Joi.string().email().required(),
+      email: Joi.string().required(),
       password: Joi.string().required(),
       password_confirmation: Joi.string().required().valid(Joi.ref('password')),
     },
