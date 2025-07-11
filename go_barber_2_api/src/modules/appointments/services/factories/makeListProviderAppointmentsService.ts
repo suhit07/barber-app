@@ -5,10 +5,7 @@ import ListProviderAppointmentsService from '../ListProviderAppointmentsService'
 
 export default function makeListProviderAppointmentsService(): ListProviderAppointmentsService {
   const appointmentsRepository = new AppointmentsRepository();
-  const cacheProvider = new FakeCacheProvider();
-
   return new ListProviderAppointmentsService(
     appointmentsRepository,
-    cacheProvider,
   );
 }

@@ -21,7 +21,7 @@ export default class AppointmentsController {
   }
 
   async index(request: Request, response: Response): Promise<Response> {
-    const { user_id } = request;
+    const { id: user_id } = request.user;
 
     const listUserAppointmentsService = makeListUserAppointmentsService();
 

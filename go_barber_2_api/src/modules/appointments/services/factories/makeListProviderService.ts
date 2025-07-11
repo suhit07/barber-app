@@ -5,7 +5,5 @@ import ListProvidersService from '../ListProvidersService';
 
 export default function makeListProviderService(): ListProvidersService {
   const usersRepository = new UsersRepository();
-  const cacheProvider = new FakeCacheProvider();
-
-  return new ListProvidersService(usersRepository, cacheProvider);
+  return new ListProvidersService(usersRepository);
 }

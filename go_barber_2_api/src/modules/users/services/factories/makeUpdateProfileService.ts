@@ -7,7 +7,5 @@ import UpdateProfileService from '../UpdateProfileService';
 export default function makeUpdateProfileService(): UpdateProfileService {
   const usersRepository = new UsersRepository();
   const hashProvider = new BCrypHashProvider();
-  const cacheProvider = new FakeCacheProvider();
-
-  return new UpdateProfileService(usersRepository, hashProvider, cacheProvider);
+  return new UpdateProfileService(usersRepository, hashProvider);
 }

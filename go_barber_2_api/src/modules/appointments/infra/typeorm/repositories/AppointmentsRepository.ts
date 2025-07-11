@@ -41,6 +41,29 @@ class AppointmentsRepository implements IAppointmentsRepository {
     const appointment = await Appointment.create(createData);
     return appointment;
   }
+
+  public async findAllFutureFromUser(user_id: string): Promise<any[]> {
+    const now = new Date();
+    return Appointment.find({
+      user_id,
+      date: { $gte: now },
+    }).sort({ date: 1 }).exec();
+  }
+
+  public async find(): Promise<any[]> {
+    // TODO: Implement actual logic
+    return [];
+  }
+
+  public async findById(id: string): Promise<any | null> {
+    // TODO: Implement actual logic
+    return null;
+  }
+
+  public async findByUserId(user_id: string): Promise<any[]> {
+    // TODO: Implement actual logic
+    return [];
+  }
 }
 
 export default AppointmentsRepository;

@@ -27,7 +27,7 @@ export default function ensureAuthenticated(
     const decodedToken = verify(token, authConfig.jwt.secret);
     const { sub } = decodedToken as ITokenPayload;
 
-    request.user_id = sub;
+    request.user = {id : sub};
   } catch {
     throw new AppError('Token inválido', 401);
   }

@@ -19,7 +19,7 @@ import { connectMongoDB } from '@config/mongodb';
 
 const app = express();
 
-// Initialize MongoDB before starting server
+// Initialize MongoDB before starting serverK
 connectMongoDB().then(() => {
   // Removed direct app.listen call that was causing EADDRINUSE before retry logic
 });
@@ -53,16 +53,16 @@ const PORT = Number(process.env.PORT) || 3000;
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-});
+  });
 
-// Graceful shutdown
-process.on('SIGTERM', () => {
+  // Graceful shutdown
+  process.on('SIGTERM', () => {
   process.exit(0);
-});
+  });
 
-process.on('SIGINT', () => {
+  process.on('SIGINT', () => {
   process.exit(0);
-});
+  });
 
 export const forgotPasswordTemplate = path.resolve(
   __dirname,

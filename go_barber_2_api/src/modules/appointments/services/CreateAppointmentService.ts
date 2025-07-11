@@ -15,8 +15,7 @@ interface IRequest {
 class CreateAppointmentService {
   constructor(
     private appointmentsRepository: IAppointmentsRepository,
-    private notificationsRepository: INotificationsRepository,
-    private cacheProvider: ICacheProvider,
+    private notificationsRepository: INotificationsRepository
   ) {}
 
   public async execute(request: IRequest): Promise<Appointment> {
@@ -56,13 +55,6 @@ class CreateAppointmentService {
       date: appointmentDate,
       user_id,
     });
-
-    await this.cacheProvider.invalidate(
-      `provider-appointments:${provider_id}:${format(
-        appointmentDate,
-        'yyyy-M-d',
-      )}`,
-    );
 
     const dateFormatted = format(appointmentDate, "dd/MM/yyyy 'às' HH:mm'h'");
 

@@ -9,7 +9,7 @@ export const connectMongoDB = async () => {
       useNewUrlParser: true,
       useUnifiedTopology: true,
       entities: [
-        __dirname + '/../../modules/**/infra/typeorm/schemas/*{.ts,.js}'
+        __dirname + '/../modules/**/infra/typeorm/schemas/*{.ts,.js}'
       ],
       synchronize: true
     });
